@@ -45,7 +45,7 @@ class DummyData {
       'specialty': 'تصوير سينمائي وبورتريه درامي',
       'location': 'صنعاء',
       'equipment': ['SONY A7R IV', '35MM GM'],
-      'image': 'assets/images/ai_photographer.png',
+      'image': 'assets/images/ai_photographer.jpg',
       'rating': 4.9,
     },
     {
@@ -72,7 +72,7 @@ class DummyData {
       'specialty': 'تصوير رياضي',
       'location': 'صنعاء',
       'equipment': ['NIKON Z9', '400MM LENS'],
-      'image': 'assets/images/ai_photographer.png',
+      'image': 'assets/images/ai_photographer.jpg',
       'rating': 4.9,
     },
   ];
