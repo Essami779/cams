@@ -173,19 +173,70 @@ class PhotographerDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text('Coverage | التغطية', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
-              const SizedBox(height: 16),
-              Container(
-                height: 120,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                clipBehavior: Clip.antiAlias,
-                child: Image.network('https://lh3.googleusercontent.com/aida-public/AB6AXuDktcmORHDPSHGXMHQ2GGavJmdB46sYpiLnzQVh6AtoHghYMtO5icQH0M80oQ1JgsqeMpKty7vI2D-BuwL9RQoZNSWabxV_ak2JgiuzrG0WytzDQP5Esi-2wUxQEbFxGq0wx_mgKvvWcoXQeKV85aBTdRBXJ7sP_3qnEyOgcvSPT9oADOkDc_gcYyRcf-1QF-3V0PMR-kxHEd4j4zgKw-hM-9fhjsTjoqJA2iJwnz205Ny4NYpai1wrH-q20E3P3Ifysijz-z501Vw', fit: BoxFit.cover, color: Colors.grey, colorBlendMode: BlendMode.saturation),
+              const SizedBox(height: 24),
+              Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: AppTheme.primaryContainer.withOpacity(0.2), width: 1.5),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.asset('assets/images/sanaa_map.png', fit: BoxFit.cover),
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: Column(
+                      children: [
+                        _buildMapControl(Icons.add),
+                        const SizedBox(height: 8),
+                        _buildMapControl(Icons.remove),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.location_searching, color: AppTheme.primary, size: 14),
+                          SizedBox(width: 8),
+                          Text('SANA\'A, YEMEN', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              const Text('متوفر للعمل في جميع أنحاء المملكة', style: TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant)),
+              const SizedBox(height: 16),
+              const Text('متوفر للتغطية السينمائية في صنعاء وجميع محافظات الجمهورية', style: TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildMapControl(IconData icon) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceLowest.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
+      ),
+      child: Icon(icon, color: Colors.white, size: 18),
     );
   }
 

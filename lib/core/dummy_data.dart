@@ -72,7 +72,7 @@ class DummyData {
       'specialty': 'تصوير رياضي',
       'location': 'صنعاء',
       'equipment': ['NIKON Z9', '400MM LENS'],
-      'image': 'assets/images/ai_photographer.jpg',
+      'image': 'assets/images/photographer_mansour.png',
       'rating': 4.9,
     },
   ];
