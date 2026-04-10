@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
+import '../../core/dummy_data.dart';
 import '../../widgets/custom_bottom_nav.dart';
 
 class PhotographersScreen extends StatelessWidget {
@@ -142,56 +143,38 @@ class PhotographersScreen extends StatelessWidget {
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
       childAspectRatio: 0.58,
-      children: [
-        _buildPhotographerCard(
+      children: DummyData.photographers.map((p) {
+        return _buildPhotographerCard(
           context: context,
-          name: 'أحمد العمري',
-          desc: 'متخصص في تصوير الطبيعة والتوثيق السينمائي للمناظر الجبلية.',
-          location: ' صنعاء ',
-          imageUrl: 'assets/images/ai_photographer.jpg',
-          tags: ['DRONE', 'CANON 90D'],
-        ),
-        _buildPhotographerCard(
-          context: context,
-          name: 'سارة خالد',
-          desc: 'خبيرة في تصوير البورتريه والموضة بأسلوب عصري وألوان حيوية.',
-          location: ' صنعاء ',
-          imageUrl: 'assets/images/photographer_mohammad_2.png',
-          tags: ['SONY A7R IV', 'PRIME LENS'],
-        ),
-        _buildPhotographerCard(
-          context: context,
-          name: 'محمد خالد ',
-          desc: 'مصور حياة الشارع والتوثيق المعماري للمدن الحديثة والقديمة.',
-          location: ' صنعاء ',
-          imageUrl: 'assets/images/photographer_mohammad_3.jpg',
-          tags: ['LEICA Q2', '35MM'],
-        ),
-        _buildPhotographerCard(
-          context: context,
-          name: 'منصور العبدالله',
-          desc: 'مصور رياضي متخصص في الفعاليات السريعة وسباقات الهجن.',
-          location: ' صنعاء ',
-          imageUrl: 'assets/images/photographer_mansour.png',
-          tags: ['NIKON Z9', '400MM LENS'],
-        ),
-      ],
+          id: p['id'],
+          name: p['name'],
+          desc: p['specialty'],
+          location: p['location'],
+          imageUrl: p['image'],
+          tags: p['equipment'] as List<String>,
+          portfolio: p['portfolio'] as List<Map<String, String>>?,
+        );
+      }).toList(),
     );
   }
 
   Widget _buildPhotographerCard({
     required BuildContext context,
+    required String id,
     required String name,
     required String desc,
     required String location,
     required String imageUrl,
     required List<String> tags,
+    List<Map<String, String>>? portfolio,
   }) {
     return GestureDetector(
-      onTap: () => context.push('/crew/1', extra: {
+      onTap: () => context.push('/crew/$id', extra: {
         'name': name,
         'location': location,
         'imageUrl': imageUrl,
+        'desc': desc,
+        'portfolio': portfolio,
       }),
       child: Container(
         decoration: BoxDecoration(

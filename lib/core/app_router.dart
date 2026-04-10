@@ -7,6 +7,7 @@ import '../screens/rentals/rental_products_screen.dart';
 import '../screens/rentals/rental_product_detail_screen.dart';
 import '../screens/photographers/photographers_screen.dart';
 import '../screens/photographers/photographer_detail_screen.dart';
+import '../screens/photographers/portfolio_detail_screen.dart';
 import '../screens/support/support_screen.dart';
 import '../screens/maintenance/experts_portal_screen.dart';
 import '../screens/maintenance/expert_details_screen.dart';
@@ -65,12 +66,14 @@ class AppRouter {
         path: '/crew/:id',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          final extra = state.extra as Map<String, String>?;
+          final extra = state.extra as Map<String, dynamic>?;
           return PhotographerDetailScreen(
             id: id,
             name: extra?['name'],
             location: extra?['location'],
             imageUrl: extra?['imageUrl'],
+            portfolio: extra?['portfolio'] as List<Map<String, String>>?,
+            desc: extra?['desc'],
           );
         },
       ),
@@ -142,6 +145,17 @@ class AppRouter {
       GoRoute(
         path: '/about',
         builder: (context, state) => const AboutUsScreen(),
+      ),
+      GoRoute(
+        path: '/portfolio_detail',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return PortfolioDetailScreen(
+            imageUrl: extra['imageUrl'] as String,
+            title: extra['title'] as String,
+            description: extra['description'] as String,
+          );
+        },
       ),
     ],
   );

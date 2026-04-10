@@ -7,6 +7,8 @@ class PhotographerDetailScreen extends StatelessWidget {
   final String? name;
   final String? location;
   final String? imageUrl;
+  final String? desc;
+  final List<Map<String, String>>? portfolio;
 
   const PhotographerDetailScreen({
     super.key,
@@ -14,6 +16,8 @@ class PhotographerDetailScreen extends StatelessWidget {
     this.name,
     this.location,
     this.imageUrl,
+    this.desc,
+    this.portfolio,
   });
 
   @override
@@ -32,7 +36,7 @@ class PhotographerDetailScreen extends StatelessWidget {
                 const SizedBox(height: 48),
                 _buildToolsAndCoverage(),
                 const SizedBox(height: 48),
-                _buildPortfolioGallery(),
+                _buildPortfolioGallery(context),
                 const SizedBox(height: 48),
                 _buildClientsSection(),
                 const SizedBox(height: 48),
@@ -102,7 +106,7 @@ class PhotographerDetailScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(displayName, style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 40, color: Colors.white, height: 1.1)),
         const SizedBox(height: 16),
-        const Text('متخصص في التقاط اللحظات الهاربة وتحويلها إلى لوحات بصرية خالدة. خبرة 10 سنوات في التصوير السينمائي والبورتريه الدرامي.', textAlign: TextAlign.center, style: TextStyle(color: AppTheme.onSurfaceVariant, fontSize: 16, height: 1.6)),
+        Text(desc ?? 'متخصص في التقاط اللحظات الهاربة وتحويلها إلى لوحات بصرية خالدة. خبرة 10 سنوات في التصوير السينمائي والبورتريه الدرامي.', textAlign: TextAlign.center, style: const TextStyle(color: AppTheme.onSurfaceVariant, fontSize: 16, height: 1.6)),
         const SizedBox(height: 24),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -254,7 +258,7 @@ class PhotographerDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPortfolioGallery() {
+  Widget _buildPortfolioGallery(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -274,42 +278,82 @@ class PhotographerDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        Column(
-          children: [
-            Row(
-              children: [
-                Expanded(child: _buildGalleryItem('assets/images/portfolio_wedding.png', 'تصوير أعراس فاخرة', 1.5)),
-                const SizedBox(width: 8),
-                Expanded(child: _buildGalleryItem('assets/images/portfolio_street.png', 'حياة الشارع القديمة', 1.5)),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _buildGalleryItem('assets/images/portfolio_product.png', 'تصوير منتجات تجاري', 1.0),
-            const SizedBox(height: 8),
-            _buildGalleryItem('assets/images/portfolio_nature.png', 'طبيعة خلابة من اليمن', 0.5),
-          ],
-        ),
+        if (portfolio != null && portfolio!.isNotEmpty)
+          Column(
+            children: [
+              // Show in 2-column grid for the first few, then full width
+              if (portfolio!.length >= 2)
+                Row(
+                  children: [
+                    Expanded(child: _buildGalleryItem(portfolio![0]['url']!, portfolio![0]['label']!, portfolio![0]['description'] ?? 'لا يوجد وصف متاح', 1.5, context)),
+                    const SizedBox(width: 8),
+                    Expanded(child: _buildGalleryItem(portfolio![1]['url']!, portfolio![1]['label']!, portfolio![1]['description'] ?? 'لا يوجد وصف متاح', 1.5, context)),
+                  ],
+                ),
+              if (portfolio!.length == 1)
+                _buildGalleryItem(portfolio![0]['url']!, portfolio![0]['label']!, portfolio![0]['description'] ?? 'لا يوجد وصف متاح', 1.0, context),
+              
+              ...List.generate(
+                portfolio!.length > 2 ? portfolio!.length - 2 : 0,
+                (index) {
+                  final item = portfolio![index + 2];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      _buildGalleryItem(item['url']!, item['label']!, item['description'] ?? 'لا يوجد وصف متاح', index % 2 == 0 ? 1.0 : 0.5, context),
+                    ],
+                  );
+                },
+              ),
+            ],
+          )
+        else
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(child: _buildGalleryItem('assets/images/portfolio_wedding.png', 'تصوير أعراس فاخرة', 'وصف العمل غير متوفر حالياً', 1.5, context)),
+                  const SizedBox(width: 8),
+                  Expanded(child: _buildGalleryItem('assets/images/portfolio_street.png', 'حياة الشارع القديمة', 'وصف العمل غير متوفر حالياً', 1.5, context)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              _buildGalleryItem('assets/images/portfolio_product.png', 'تصوير منتجات تجاري', 'وصف العمل غير متوفر حالياً', 1.0, context),
+              const SizedBox(height: 8),
+              _buildGalleryItem('assets/images/portfolio_nature.png', 'طبيعة خلابة من اليمن', 'وصف العمل غير متوفر حالياً', 0.5, context),
+            ],
+          ),
       ],
     );
   }
 
-  Widget _buildGalleryItem(String url, String label, double heightRatio) {
-    return AspectRatio(
-      aspectRatio: heightRatio == 1.5 ? 3 / 4 : (heightRatio == 1.0 ? 1 : 16 / 9),
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(url, fit: BoxFit.cover),
-            Container(decoration: const BoxDecoration(gradient: LinearGradient(colors: [Colors.black87, Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.center))),
-            Positioned(
-              bottom: 16,
-              left: 16,
-              child: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
-            ),
-          ],
+  Widget _buildGalleryItem(String url, String label, String description, double heightRatio, BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.push('/portfolio_detail', extra: {
+        'imageUrl': url,
+        'title': label,
+        'description': description,
+      }),
+      child: AspectRatio(
+        aspectRatio: heightRatio == 1.5 ? 3 / 4 : (heightRatio == 1.0 ? 1 : 16 / 9),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Hero(
+                tag: url,
+                child: Image.asset(url, fit: BoxFit.cover),
+              ),
+              Container(decoration: const BoxDecoration(gradient: LinearGradient(colors: [Colors.black87, Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.center))),
+              Positioned(
+                bottom: 16,
+                left: 16,
+                child: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+              ),
+            ],
+          ),
         ),
       ),
     );
