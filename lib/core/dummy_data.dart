@@ -159,20 +159,20 @@ class DummyData {
     },
     {
       'id': '4',
-      'name': 'منصور العبدالله',
-      'specialty': 'تصوير رياضي',
+      'name': 'منصور عبدالله',
+      'specialty': 'مصور رياضي متخصص في الفعاليات السريعة وسباقات الهجن. ',
       'location': 'صنعاء',
       'equipment': ['NIKON Z9', '400MM LENS'],
       'image': 'assets/images/photographer_mansour.png',
       'rating': 4.9,
       'portfolio': [
         {
-          'url': 'assets/images/portfolio_street.png',
+          'url': 'assets/images/portfolio_sport_2.jpg',
           'label': 'سباقات الهجن والسرعة',
           'description': 'تجميد لحظات الإثارة في سباقات الهجن التقليدية، مع التركيز على الغبار المتصاعد وتعبيرات القوة والإصرار.'
         },
         {
-          'url': 'assets/images/portfolio_nature.png',
+          'url': 'assets/images/portfolio_sport_1.jpg',
           'label': 'تغطية الأحداث الرياضية',
           'description': 'لقطة واسعة تظهر حيوية الملاعب والجمهور، تعكس شغف الشباب اليمني بالرياضة والفعاليات الحركية.'
         },
