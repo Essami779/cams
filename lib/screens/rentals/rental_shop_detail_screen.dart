@@ -264,7 +264,7 @@ class RentalShopDetailScreen extends StatelessWidget {
                 height: 120,
                 decoration: BoxDecoration(color: AppTheme.surfaceHigh, borderRadius: BorderRadius.circular(16)),
                 clipBehavior: Clip.antiAlias,
-                child: Image.asset('assets/images/rental_shop_1.jpg', fit: BoxFit.cover),
+                child: Image.asset('assets/images/sony_camera.jpg', fit: BoxFit.cover),
               ),
               const SizedBox(width: 24),
               Expanded(
