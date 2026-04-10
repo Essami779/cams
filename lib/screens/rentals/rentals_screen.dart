@@ -122,6 +122,7 @@ class RentalsScreen extends StatelessWidget {
       children: [
         _buildShopCard(
           context: context,
+          id: '1',
           isTopRated: true,
           title: 'عدسة صنعاء',
           desc: 'أكبر تشكيلة من كاميرات Red و Arri للإيجار اليومي.',
@@ -131,6 +132,7 @@ class RentalsScreen extends StatelessWidget {
         ),
         _buildShopCard(
           context: context,
+          id: '2',
           title: 'سينما كرافت',
           desc: 'متخصصون في معدات الإضاءة والصوت للإنتاج السينمائي.',
           location: 'حي الروضة، صنعاء',
@@ -138,6 +140,7 @@ class RentalsScreen extends StatelessWidget {
         ),
         _buildShopCard(
           context: context,
+          id: '3',
           title: 'فيجن برو',
           desc: 'حلول تقنية متكاملة لتغطية الفعاليات والمؤتمرات.',
           location: 'الدانة، صنعاء',
@@ -145,6 +148,7 @@ class RentalsScreen extends StatelessWidget {
         ),
         _buildShopCard(
           context: context,
+          id: '4',
           title: 'استوديو ريز',
           desc: 'نوفر استوديوهات مجهزة بالكامل ومعدات تصوير فوتوغرافي.',
           location: 'العزيزية، صنعاء',
@@ -156,6 +160,7 @@ class RentalsScreen extends StatelessWidget {
 
   Widget _buildShopCard({
     required BuildContext context,
+    required String id,
     required String title,
     required String desc,
     required String location,
@@ -164,7 +169,7 @@ class RentalsScreen extends StatelessWidget {
     bool isPrimaryAction = false,
   }) {
     return GestureDetector(
-      onTap: () => context.push('/rentals/shop/1'),
+      onTap: () => context.push('/rentals/shop/$id'),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFF1E1E1E),

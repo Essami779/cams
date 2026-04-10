@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
+import '../../core/dummy_data.dart';
 import '../../widgets/custom_bottom_nav.dart';
 
 class RentalShopDetailScreen extends StatelessWidget {
@@ -9,15 +10,20 @@ class RentalShopDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shop = DummyData.rentalShops.firstWhere(
+      (s) => s['id'] == id,
+      orElse: () => DummyData.rentalShops.first,
+    );
+
     return Scaffold(
       backgroundColor: AppTheme.surfaceLowest,
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(context, shop),
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 100, bottom: 100),
         child: Column(
           children: [
-            _buildHeroSection(),
+            _buildHeroSection(shop),
             const SizedBox(height: 48),
             _buildCategoryBento(context),
             const SizedBox(height: 48),
@@ -29,7 +35,7 @@ class RentalShopDetailScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, Map<String, dynamic> shop) {
     return AppBar(
       backgroundColor: AppTheme.surfaceLowest.withOpacity(0.7),
       flexibleSpace: ClipRect(
@@ -48,7 +54,7 @@ class RentalShopDetailScreen extends StatelessWidget {
         ),
         onPressed: () => context.pop(),
       ),
-      title: const Text('متجر العم خالد', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
+      title: Text(shop['name'], style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
       actions: [
         const Icon(Icons.share, color: Colors.white, size: 20),
         const SizedBox(width: 12),
@@ -64,7 +70,7 @@ class RentalShopDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeroSection() {
+  Widget _buildHeroSection(Map<String, dynamic> shop) {
     return Container(
       height: 256,
       width: double.infinity,
@@ -76,7 +82,7 @@ class RentalShopDetailScreen extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network('https://lh3.googleusercontent.com/aida-public/AB6AXuCpG7rLRNWYnsLuD5gfY72gmkYKlmaw0IWEKEY8q-hX0Fw57MTTCtgBEiB15GroDRen7HhMARpGbBj9o2gdV6dscRIn35tPci26xg3PL5N6CxskVyMcCLYv0GJkxQwZOwHnGkkIT1tpZnwo3TRoIQYeqd-GttjwOwEFjKmQygUeHkQryVrwSCb40llotM9F11LQNpzBoGPu6_Zi8X1ZMr7-DkI5Jx5UvN7-l6r94LfGzxPVo-9_UlXjMHAQPzYo3olDlPA-pu0mjm8', fit: BoxFit.cover, color: Colors.blueGrey.withOpacity(0.6), colorBlendMode: BlendMode.modulate),
+          Image.asset(shop['image'], fit: BoxFit.cover, color: Colors.blueGrey.withOpacity(0.6), colorBlendMode: BlendMode.modulate),
           Container(
             decoration: BoxDecoration(gradient: LinearGradient(colors: [AppTheme.surfaceLowest.withOpacity(0.9), Colors.transparent], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
           ),
@@ -88,52 +94,56 @@ class RentalShopDetailScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(color: AppTheme.surfaceHigh, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.primaryContainer.withOpacity(0.3))),
-                      child: Container(
-                        decoration: BoxDecoration(color: AppTheme.surfaceLowest, borderRadius: BorderRadius.circular(12)),
-                        child: const Icon(Icons.camera_enhance, color: AppTheme.primaryContainer, size: 36),
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(color: AppTheme.surfaceHigh, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.primaryContainer.withOpacity(0.3))),
+                        child: Container(
+                          decoration: BoxDecoration(color: AppTheme.surfaceLowest, borderRadius: BorderRadius.circular(12)),
+                          child: const Icon(Icons.camera_enhance, color: AppTheme.primaryContainer, size: 36),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('متجر العم خالد', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 24, color: Colors.white, fontStyle: FontStyle.italic)),
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(color: AppTheme.primaryContainer, borderRadius: BorderRadius.circular(4)),
-                              child: const Text('VERIFIED', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
+                            Row(
+                              children: [
+                                Flexible(child: Text(shop['name'], style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 24, color: Colors.white, fontStyle: FontStyle.italic), overflow: TextOverflow.ellipsis)),
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(color: AppTheme.primaryContainer, borderRadius: BorderRadius.circular(4)),
+                                  child: const Text('VERIFIED', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(Icons.location_on, color: AppTheme.onSurfaceVariant, size: 12),
+                                const SizedBox(width: 4),
+                                Expanded(child: Text(shop['location'], style: const TextStyle(fontSize: 14, color: AppTheme.onSurfaceVariant), overflow: TextOverflow.ellipsis)),
+                              ],
                             )
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: const [
-                            Icon(Icons.location_on, color: AppTheme.onSurfaceVariant, size: 12),
-                            SizedBox(width: 4),
-                            Text('الرياض، حي العليا', style: TextStyle(fontSize: 14, color: AppTheme.onSurfaceVariant)),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
                     Column(
-                      children: const [
-                        Text('4.9', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 20, color: AppTheme.primaryContainer)),
-                        Text('RATING', style: TextStyle(fontSize: 10, color: AppTheme.onSurfaceVariant, letterSpacing: 1.0)),
+                      children: [
+                        Text('${shop['rating']}', style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 20, color: AppTheme.primaryContainer)),
+                        const Text('RATING', style: TextStyle(fontSize: 10, color: AppTheme.onSurfaceVariant, letterSpacing: 1.0)),
                       ],
                     ),
                     Container(
@@ -264,7 +274,7 @@ class RentalShopDetailScreen extends StatelessWidget {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('سلسلة سوني الاحترافية', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primaryContainer, letterSpacing: 1.0)),
+                        const Expanded(child: Text('سلسلة سوني الاحترافية', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primaryContainer, letterSpacing: 1.0), overflow: TextOverflow.ellipsis)),
                          Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(color: AppTheme.surfaceHigh, borderRadius: BorderRadius.circular(4)),
@@ -286,22 +296,24 @@ class RentalShopDetailScreen extends StatelessWidget {
                     Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('السعر اليومي', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.onSurfaceVariant, letterSpacing: 1.0)),
-                            Text('450 ريال / يوم', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 16, color: AppTheme.primaryContainer)),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('السعر اليومي', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.onSurfaceVariant, letterSpacing: 1.0)),
+                              Text('450 ريال / يوم', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 13, color: AppTheme.primaryContainer)),
+                            ],
+                          ),
                         ),
                         ElevatedButton.icon(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryContainer,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
                           ),
                           icon: const Text('احجز الآن', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
-                          label: const Icon(Icons.calendar_today, color: Colors.white, size: 16),
+                          label: const Icon(Icons.calendar_today, color: Colors.white, size: 14),
                         )
                       ],
                     )
