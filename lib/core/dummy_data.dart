@@ -167,12 +167,12 @@ class DummyData {
       'rating': 4.9,
       'portfolio': [
         {
-          'url': 'assets/images/portfolio_sport_2.jpg',
+          'url': 'assets/images/portfolio_sport_1.jpg',
           'label': 'سباقات الهجن والسرعة',
           'description': 'تجميد لحظات الإثارة في سباقات الهجن التقليدية، مع التركيز على الغبار المتصاعد وتعبيرات القوة والإصرار.'
         },
         {
-          'url': 'assets/images/portfolio_sport_1.jpg',
+          'url': 'assets/images/portfolio_sport_2.jpg',
           'label': 'تغطية الأحداث الرياضية',
           'description': 'لقطة واسعة تظهر حيوية الملاعب والجمهور، تعكس شغف الشباب اليمني بالرياضة والفعاليات الحركية.'
         },
