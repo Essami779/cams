@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../widgets/custom_bottom_nav.dart';
+import '../../widgets/story_viewer.dart';
 
 class PublicChannelScreen extends StatelessWidget {
   const PublicChannelScreen({super.key});
@@ -71,7 +72,7 @@ class PublicChatView extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.only(bottom: 100),
               children: [
-                _buildStoriesSection(),
+                _buildStoriesSection(context),
                 const SizedBox(height: 24),
                 _buildFeedSection(context),
               ],
@@ -124,7 +125,42 @@ class PublicChatView extends StatelessWidget {
     );
   }
 
-  Widget _buildStoriesSection() {
+  Widget _buildStoriesSection(BuildContext context) {
+    final stories = [
+      StoryData(
+        userName: 'طه العريقي',
+        userRole: 'مهندس صيانة',
+        userAvatar: 'assets/images/tech_ahmad_cinematic.jpg',
+        type: StoryType.text,
+        textContent: 'عند تنظيف حساس الكاميرا، احرص دائماً على استخدام منفاخ الهواء أولاً قبل استخدام المساحات المبللة لتجنب الخدوش.',
+        timeAgo: 'منذ ساعتين',
+      ),
+      StoryData(
+        userName: 'محمد خال',
+        userRole: 'مصور فوتوغرافي',
+        userAvatar: 'assets/images/photographer_mohammad_3.jpg',
+        type: StoryType.image,
+        imageUrl: 'assets/images/photographer_work_1.jpg',
+        timeAgo: 'منذ 15 دقيقة',
+      ),
+      StoryData(
+        userName: 'العم خالد',
+        userRole: 'محل تأجير',
+        userAvatar: 'assets/images/rental_shop_1.jpg',
+        type: StoryType.text,
+        textContent: 'وصلت حديثاً مجموعة عدسات Sigma Art الجديدة لكاميرات Sony و Canon. احجزها الآن لبداية الأسبوع.',
+        timeAgo: 'منذ ساعة',
+      ),
+    ];
+
+    void showStory(int index) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => StoryViewer(stories: [stories[index]], initialIndex: 0),
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -134,21 +170,24 @@ class PublicChatView extends StatelessWidget {
           _buildAddStoryItem(),
           const SizedBox(width: 20),
           _buildStoryItem(
-            name: 'طه العريقي',
-            role: 'مهندس',
-            imageUrl: 'assets/images/tech_ahmad_cinematic.jpg',
+            name: stories[0].userName,
+            role: stories[0].userRole,
+            imageUrl: stories[0].userAvatar,
+            onTap: () => showStory(0),
           ),
           const SizedBox(width: 20),
           _buildStoryItem(
-            name: 'محمد خال',
-            role: 'مصور',
-            imageUrl: 'assets/images/photographer_mohammad_3.jpg',
+            name: stories[1].userName,
+            role: stories[1].userRole,
+            imageUrl: stories[1].userAvatar,
+            onTap: () => showStory(1),
           ),
           const SizedBox(width: 20),
           _buildStoryItem(
-            name: 'العم خالد',
-            role: 'محل تأجير',
-            imageUrl: 'assets/images/rental_shop_1.jpg',
+            name: stories[2].userName,
+            role: stories[2].userRole,
+            imageUrl: stories[2].userAvatar,
+            onTap: () => showStory(2),
           ),
         ],
       ),
@@ -206,38 +245,41 @@ class PublicChatView extends StatelessWidget {
     );
   }
 
-  Widget _buildStoryItem({required String name, required String role, required String imageUrl}) {
-    return Column(
-      children: [
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppTheme.primaryContainer, width: 2),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.primaryContainer.withOpacity(0.4),
-                blurRadius: 12,
-              )
-            ],
+  Widget _buildStoryItem({required String name, required String role, required String imageUrl, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: AppTheme.primaryContainer, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.primaryContainer.withOpacity(0.4),
+                  blurRadius: 12,
+                )
+              ],
+            ),
+            padding: const EdgeInsets.all(2),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              child: Image.asset(imageUrl, fit: BoxFit.cover),
+            ),
           ),
-          padding: const EdgeInsets.all(2),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: Image.asset(imageUrl, fit: BoxFit.cover),
+          const SizedBox(height: 8),
+          Text(
+            name,
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.onSurface),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.onSurface),
-        ),
-        Text(
-          role,
-          style: const TextStyle(fontSize: 8, color: AppTheme.primary),
-        ),
-      ],
+          Text(
+            role,
+            style: const TextStyle(fontSize: 8, color: AppTheme.primary),
+          ),
+        ],
+      ),
     );
   }
 

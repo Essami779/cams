@@ -187,18 +187,24 @@ class RentalShopDetailScreen extends StatelessWidget {
           crossAxisSpacing: 16,
           childAspectRatio: 0.8,
           children: [
-            _buildCategoryCard(context, icon: Icons.photo_camera, title: 'كاميرات', count: '42 وحدة متوفرة', index: '01'),
-            _buildCategoryCard(context, icon: Icons.lightbulb, title: 'إضاءة', count: '18 طقماً جاهزاً', index: '02'),
-            _buildCategoryCard(context, icon: Icons.precision_manufacturing, title: 'درونات', count: '6 وحدات في المخزون', index: '03'),
+            _buildCategoryCard(context, icon: Icons.camera_alt, title: 'كاميرات', count: '42 وحدة متوفرة', index: '01'),
+            _buildCategoryCard(context, icon: Icons.flash_on, title: 'إضاءة', count: '18 طقماً جاهزاً', index: '02'),
+            _buildCategoryCard(
+              context, 
+              icon: _buildDroneIcon(), 
+              title: 'درونات', 
+              count: '6 وحدات في المخزون', 
+              index: '03'
+            ),
             _buildCategoryCard(context, icon: Icons.backpack, title: 'إكسسوارات', count: '85 قطعة متوفرة', index: '04'),
-            _buildCategoryCard(context, icon: Icons.theater_comedy, title: 'حوامل', count: '12 حاملاً جاهزاً', index: '05'),
+            _buildCategoryCard(context, icon: Icons.vibration, title: 'حوامل', count: '12 حاملاً جاهزاً', index: '05'),
           ],
         )
       ],
     );
   }
 
-  Widget _buildCategoryCard(BuildContext context, {required IconData icon, required String title, required String count, required String index}) {
+  Widget _buildCategoryCard(BuildContext context, {required dynamic icon, required String title, required String count, required String index}) {
     return GestureDetector(
       onTap: () => context.push('/rentals/products'), // Will create this later
       child: Container(
@@ -215,7 +221,10 @@ class RentalShopDetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(icon, color: AppTheme.primaryContainer, size: 32),
+                   if (icon is IconData)
+                    Icon(icon, color: AppTheme.primaryContainer, size: 32)
+                   else
+                    icon as Widget,
                   Text(index, style: const TextStyle(fontFamily: 'Space Grotesk', fontSize: 10, color: AppTheme.onSurfaceVariant)),
                 ],
               ),
@@ -324,6 +333,27 @@ class RentalShopDetailScreen extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget _buildDroneIcon() {
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Icon(Icons.toys, color: AppTheme.primaryContainer, size: 32),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: const BoxDecoration(
+              color: AppTheme.surfaceLow,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.videocam, color: AppTheme.primaryContainer, size: 12),
+          ),
+        ],
+      ),
     );
   }
 }
