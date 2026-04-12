@@ -49,7 +49,13 @@ class AppRouter {
       ),
       GoRoute(
         path: '/rentals/products',
-        builder: (context, state) => const RentalProductsScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          return RentalProductsScreen(
+            category: extra['category'] as String? ?? 'الكاميرات',
+            shopName: extra['shopName'] as String? ?? 'عدسة صنعاء',
+          );
+        },
       ),
       GoRoute(
         path: '/rentals/product/:id',

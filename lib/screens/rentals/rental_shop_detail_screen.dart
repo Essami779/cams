@@ -206,7 +206,7 @@ class RentalShopDetailScreen extends StatelessWidget {
 
   Widget _buildCategoryCard(BuildContext context, {required dynamic icon, required String title, required String count, required String index}) {
     return GestureDetector(
-      onTap: () => context.push('/rentals/products'), // Will create this later
+      onTap: () => context.push('/rentals/products', extra: {'category': title, 'shopName': 'عدسة صنعاء'}), // Passing shop name and category
       child: Container(
          decoration: BoxDecoration(
            color: AppTheme.surfaceLow,

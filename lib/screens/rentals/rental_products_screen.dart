@@ -4,10 +4,19 @@ import '../../core/theme.dart';
 import '../../widgets/custom_bottom_nav.dart';
 
 class RentalProductsScreen extends StatelessWidget {
-  const RentalProductsScreen({super.key});
+  final String category;
+  final String shopName;
+
+  const RentalProductsScreen({
+    super.key, 
+    this.category = 'الكاميرات',
+    this.shopName = 'عدسة صنعاء',
+  });
 
   @override
   Widget build(BuildContext context) {
+    final categoryData = _getCategoryData(category);
+
     return Scaffold(
       backgroundColor: AppTheme.surfaceLowest,
       appBar: _buildAppBar(context),
@@ -15,16 +24,157 @@ class RentalProductsScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 100),
         child: Column(
           children: [
-            _buildEditorialHeader(),
+            _buildEditorialHeader(categoryData),
             const SizedBox(height: 32),
-            _buildFilters(),
+            _buildFilters(categoryData['filters'] as List<String>),
             const SizedBox(height: 32),
-            _buildProductGrid(context),
+            _buildProductGrid(context, categoryData['products'] as List<Map<String, dynamic>>),
           ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNav(currentIndex: 1), // Index 1 for rentals
+      bottomNavigationBar: const CustomBottomNav(currentIndex: 1),
     );
+  }
+
+  Map<String, dynamic> _getCategoryData(String category) {
+    switch (category) {
+      case 'إضاءة':
+        return {
+          'title': 'حلول الإضاءة',
+          'desc': 'فن تشكيل الظل والضوء. معدات احترافية تمنح قصتك البعد السينمائي المطلوب.',
+          'filters': ['كل المعدات', 'LED', 'Frensel', 'RGB'],
+          'products': [
+            {
+              'title': 'Aputure 600d Pro',
+              'desc': 'أقوى وحدة إضاءة LED بضوء النهار، مع مقاومة للطقس وتحكم لاسلكي متطور.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'POWER',
+              'spec1Value': '600W',
+              'spec2Label': 'CRI',
+              'spec2Value': '96+',
+              'imageUrl': 'assets/images/ring_light_store.jpg',
+              'isActive': true,
+            },
+            {
+              'title': 'Godox VL300',
+              'desc': 'إضاءة صامتة وخفيفة الوزن، مثالية لتصوير المقابلات والفيديو الاحترافي.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'TEMP',
+              'spec1Value': '5600K',
+              'spec2Label': 'TLCI',
+              'spec2Value': '95',
+              'imageUrl': 'assets/images/lens_mobile_3.jpg',
+              'isActive': true,
+            },
+          ],
+        };
+      case 'درونات':
+        return {
+          'title': 'أسطول الدرونات',
+          'desc': 'رؤية شاملة من آفاق جديدة. صور للقطاتك الجوية بأحدث تكنولوجيا الطيران.',
+          'filters': ['كل الدرونات', 'Consumer', 'Enterprise', 'FPV'],
+          'products': [
+            {
+              'title': 'DJI Mavic 3 Pro',
+              'desc': 'ثلاث كاميرات قوية في طائرة واحدة، مع وقت طيران طويل وجودة 5.1K Apple ProRes.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'TIME',
+              'spec1Value': '43 MIN',
+              'spec2Label': 'RANGE',
+              'spec2Value': '15 KM',
+              'imageUrl': 'assets/images/lens_mobile_1.jpg',
+              'isActive': true,
+            },
+            {
+              'title': 'DJI Avata',
+              'desc': 'تجربة طيران غامرة (FPV) تتيح لك الطيران في الأماكن الضيقة بمرونة لا تضاهى.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'WEIGHT',
+              'spec1Value': '410G',
+              'spec2Label': 'FO V',
+              'spec2Value': '155°',
+              'imageUrl': 'assets/images/photographer_work_1.jpg',
+              'isActive': true,
+            },
+          ],
+        };
+       case 'إكسسوارات':
+        return {
+          'title': 'إكسسوارات',
+          'desc': 'التفاصيل التي تصنع الفرق. مجموعة مختارة من الملحقات الضرورية لكل مصور محترف.',
+          'filters': ['الكل', 'ذواكر', 'فلاتر', 'حقائب'],
+          'products': [
+            {
+              'title': 'ProGrade Digital',
+              'desc': 'بطاقات ذاكرة عالية السرعة مصممة للتعامل مع أعلى معدلات البيانات والحرارة.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'CAP',
+              'spec1Value': '512GB',
+              'spec2Label': 'SPEED',
+              'spec2Value': 'V90',
+              'imageUrl': 'assets/images/wireless_mic_store.jpg',
+              'isActive': true,
+            },
+          ],
+        };
+       case 'حوامل':
+        return {
+          'title': 'أنظمة التثبيت',
+          'desc': 'أساس الثبات في كل لقطة. من ترايبود الفيديو الثقيل إلى الجيمبال السلس.',
+          'filters': ['الكل', 'ترايبود', 'جيمبال', 'سلايدر'],
+          'products': [
+            {
+              'title': 'DJI Ronin RS3 Pro',
+              'desc': 'مثبت كاميرا ذكي مع تكنولوجيا LiDAR للتركيز التلقائي وقدرة حمل عالية.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'LOAD',
+              'spec1Value': '4.5KG',
+              'spec2Label': 'BATTERY',
+              'spec2Value': '12H',
+              'imageUrl': 'assets/images/gimbal_x300_store.jpg',
+              'isActive': true,
+            },
+          ],
+        };
+      default: // الكاميرات
+        return {
+          'title': 'مجموعة الكاميرات',
+          'desc': 'إرث من الضوء والعدسات. اختر الأداة التي تليق برؤيتك الإبداعية من تشكيلتنا المختارة.',
+          'filters': ['كل المعدات', 'DSLR', 'Mirrorless', 'Cinema'],
+          'products': [
+            {
+              'title': 'Canon 90D',
+              'desc': 'كاميرا قوية تجمع بين السرعة والدقة، مثالية لتصوير الحياة البرية والرياضة بجودة 4K.',
+              'statusText': 'متاح',
+              'statusColor': AppTheme.primaryContainer,
+              'spec1Label': 'SENSOR',
+              'spec1Value': 'APS-C',
+              'spec2Label': 'RES',
+              'spec2Value': '32.5MP',
+              'imageUrl': 'assets/images/sony_camera.jpg',
+              'isActive': true,
+            },
+            {
+              'title': 'Sony A7III',
+              'desc': 'الخيار الأول لصناع المحتوى والسينمائيين بفضل الأداء العالي في الإضاءة المنخفضة.',
+              'statusText': 'محجوز',
+              'statusColor': Colors.blueGrey,
+              'spec1Label': 'SENSOR',
+              'spec1Value': 'FULL FRAME',
+              'spec2Label': 'ISO',
+              'spec2Value': '51200',
+              'imageUrl': 'assets/images/8k_cinema_camera.png',
+              'isActive': false,
+            },
+          ],
+        };
+    }
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -33,8 +183,8 @@ class RentalProductsScreen extends StatelessWidget {
       elevation: 0,
       centerTitle: false,
       leading: IconButton(
-        icon: const Icon(Icons.menu, color: AppTheme.primaryContainer),
-        onPressed: () {},
+        icon: const Icon(Icons.arrow_back, color: AppTheme.primaryContainer),
+        onPressed: () => context.pop(),
       ),
       title: const Text('CAMS', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 24, color: AppTheme.primaryContainer, fontStyle: FontStyle.italic)),
       actions: [
@@ -43,14 +193,14 @@ class RentalProductsScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: Row(
               children: [
-                const Text('متجر العم خالد / الكاميرات', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.onSurfaceVariant)),
+                Text('متجر $shopName / $category', style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.onSurfaceVariant)),
                 const SizedBox(width: 12),
                 Container(
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: AppTheme.primaryContainer.withOpacity(0.3))),
                   clipBehavior: Clip.antiAlias,
-                  child: Image.network('https://lh3.googleusercontent.com/aida-public/AB6AXuA7XkrTdvCw-WVUmHtCLIP87WNj7qUH-AvN_5gDGHRAv3ILUzdpd4B7UFy_6Ug3DUDMrSAWjewR7WsV4yrS4l_OK1YEMdyNE08vbk5N1_M-Of9zISz9GZCNOJ-TaBEDI5S2rRbTuCneOu_jpgH-9SkePWVHN5NPvn-fOGpjoo-SNl-Ht8rK_5lwRPQx4pScIOpAlgo8ObOTvia_MRprCPgt-xmRDGOMfPZ7cM7Ebbia3teaQ-2Y867-M7KJE3kSOZ4mbJPcA6xq9VQ', fit: BoxFit.cover),
+                  child: Image.asset('assets/images/photographer_mohammad_1.jpg', fit: BoxFit.cover),
                 )
               ],
             ),
@@ -60,7 +210,7 @@ class RentalProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEditorialHeader() {
+  Widget _buildEditorialHeader(Map<String, dynamic> data) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -68,11 +218,11 @@ class RentalProductsScreen extends StatelessWidget {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('مجموعة', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 36, color: Colors.white, height: 1.1)),
-              Text('الكاميرات', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 36, color: AppTheme.primaryContainer, height: 1.1)),
-              SizedBox(height: 8),
-              Text('إرث من الضوء والعدسات. اختر الأداة التي تليق برؤيتك الإبداعية من تشكيلتنا المختارة.', style: TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant, height: 1.5)),
+            children: [
+              const Text('مجموعة', style: TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 36, color: Colors.white, height: 1.1)),
+              Text(category, style: const TextStyle(fontFamily: 'Space Grotesk', fontWeight: FontWeight.w900, fontSize: 36, color: AppTheme.primaryContainer, height: 1.1)),
+              const SizedBox(height: 8),
+              Text(data['desc'], style: const TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant, height: 1.5)),
             ],
           ),
         ),
@@ -88,13 +238,12 @@ class RentalProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilters() {
-    final filters = ['كل المعدات', 'دي إس إل آر', 'بدون مرآة', 'كلاسيكي'];
+  Widget _buildFilters(List<String> filters) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: filters.map((f) {
-          final isActive = f == 'كل المعدات';
+          final isActive = f == (filters.isNotEmpty ? filters[0] : '');
           return Container(
             margin: const EdgeInsets.only(left: 8),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -118,68 +267,26 @@ class RentalProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductGrid(BuildContext context) {
+  Widget _buildProductGrid(BuildContext context, List<Map<String, dynamic>> products) {
     return GridView.count(
-      crossAxisCount: 1, // Stacking them like cards on mobile to match the design width-wise, or grid on desktop. Let's make it 1 per row for mobile.
+      crossAxisCount: 1, 
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 24,
       childAspectRatio: 0.9,
-      children: [
-        _buildProductCard(
-          context: context,
-          title: 'Canon 90D',
-          desc: 'كاميرا قوية تجمع بين السرعة والدقة، مثالية لتصوير الحياة البرية والرياضة بجودة 4K.',
-          statusText: 'متاح',
-          statusColor: AppTheme.primaryContainer,
-          spec1Label: 'SENSOR',
-          spec1Value: 'APS-C',
-          spec2Label: 'RES',
-          spec2Value: '32.5MP',
-          imageUrl: 'https://lh3.googleusercontent.com/aida/ADBb0uhdlWLaxBWbwtUPGO8iud7t5aIL1ZW9CvJARHmzFzvkoHNJe4ca1C_1BlUbNFrI9r6wGmb_Ub3HqSwoky5eNJES2kJ6iFLhevmdSFRaVI-I3TLoAppAUS_rgng4lwdDy7YfIUnfc6FHue73x5K24YgHEEx0tGPkLDGeymCFsekuzV_-2Zm8S1mhpqQOu6M-IKSEMobD0dul8dcvB8MUogqzLVampoCknP02p-Y1z8PVV-HowROROn8R2VgtPimN_3iI_uvHbkJH',
-          isActive: true,
-        ),
-        _buildProductCard(
-          context: context,
-          title: 'Sony A7III',
-          desc: 'الخيار الأول لصناع المحتوى والسينمائيين بفضل الأداء العالي في الإضاءة المنخفضة.',
-          statusText: 'محجوز',
-          statusColor: Colors.blueGrey,
-          spec1Label: 'SENSOR',
-          spec1Value: 'FULL FRAME',
-          spec2Label: 'ISO',
-          spec2Value: '51200',
-          imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA3I1u7jcuK9DX6SU9QRVepoqsxmOwssGk37hKBNYLqGHjf4juWpCRVIUlkxC5Cxp3OFJh6IUPIMh8vZ8llJ9wrs5FDLf_Bl0EhiE-Tk9FRULiqU5pzaaIVd3n_A1YQ9Ilj-Ne7FxPH12qSyGpl849kWkFMQBdChfXIYRUJN-sNYsy-ZEZRdjfTFGymMgkRpZx2wkxPBnTYaPND1YHprKC3naY718Z-gy49OZCQ-2_WDVFdpXWUTalCHsNCKuhaN17PdsjTPWIEY_Q',
-          isActive: false,
-        ),
-        _buildProductCard(
-          context: context,
-          title: 'Nikon Z6 II',
-          desc: 'توازن مثالي بين التصوير الفوتوغرافي والفيديو بفضل معالج مزدوج ونظام تركيز دقيق.',
-          statusText: 'تحت الصيانة',
-          statusColor: const Color(0xFFffb4ab),
-          spec1Label: 'FPS',
-          spec1Value: '14 FPS',
-          spec2Label: 'AF',
-          spec2Value: 'EYE-DETECTION',
-          imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCpG7rLRNWYnsLuD5gfY72gmkYKlmaw0IWEKEY8q-hX0Fw57MTTCtgBEiB15GroDRen7HhMARpGbBj9o2gdV6dscRIn35tPci26xg3PL5N6CxskVyMcCLYv0GJkxQwZOwHnGkkIT1tpZnwo3TRoIQYeqd-GttjwOwEFjKmQygUeHkQryVrwSCb40llotM9F11LQNpzBoGPu6_Zi8X1ZMr7-DkI5Jx5UvN7-l6r94LfGzxPVo-9_UlXjMHAQPzYo3olDlPA-pu0mjm8',
-          isActive: false,
-          isMaintenance: true,
-        ),
-        _buildProductCard(
-           context: context,
-          title: 'Fujifilm X-T4',
-          desc: 'تجربة كلاسيكية مع تكنولوجيا حديثة. ألوان فنية ومثبت صورة داخلي متطور.',
-          statusText: 'متاح',
-          statusColor: AppTheme.primaryContainer,
-          spec1Label: 'FILM',
-          spec1Value: 'SIMULATION',
-          spec2Label: 'IBIS',
-          spec2Value: '6.5 STOPS',
-          imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDktcmORHDPSHGXMHQ2GGavJmdB46sYpiLnzQVh6AtoHghYMtO5icQH0M80oQ1JgsqeMpKty7vI2D-BuwL9RQoZNSWabxV_ak2JgiuzrG0WytzDQP5Esi-2wUxQEbFxGq0wx_mgKvvWcoXQeKV85aBTdRBXJ7sP_3qnEyOgcvSPT9oADOkDc_gcYyRcf-1QF-3V0PMR-kxHEd4j4zgKw-hM-9fhjsTjoqJA2iJwnz205Ny4NYpai1wrH-q20E3P3Ifysijz-z501Vw',
-          isActive: true,
-        ),
-      ],
+      children: products.map((p) => _buildProductCard(
+        context: context,
+        title: p['title'],
+        desc: p['desc'],
+        statusText: p['statusText'],
+        statusColor: p['statusColor'],
+        spec1Label: p['spec1Label'],
+        spec1Value: p['spec1Value'],
+        spec2Label: p['spec2Label'],
+        spec2Value: p['spec2Value'],
+        imageUrl: p['imageUrl'],
+        isActive: p['isActive'],
+      )).toList(),
     );
   }
 
